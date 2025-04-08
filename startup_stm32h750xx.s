@@ -45,6 +45,8 @@ defined in linker script */
 .word  _ebss
 /* stack used for SystemInit_ExtMemCtl; always internal RAM used */
 
+
+@ .equ  BootRAM,        0xF1E0F85F 
 /**
  * @brief  This is the code that gets called when the processor first
  *          starts execution following a reset event. Only the absolutely
@@ -61,7 +63,7 @@ Reset_Handler:
   ldr   sp, =_estack      /* set stack pointer */
 
 /* Call the ExitRun0Mode function to configure the power supply */
-  bl  ExitRun0Mode
+  @ bl  ExitRun0Mode
 /* Call the clock system initialization function.*/
   bl  SystemInit
 

@@ -51,33 +51,32 @@ uint8_t QSPI_AutoPollingMemReady_ChipErase(void);
 
 
 /* USER CODE BEGIN Prototypes */
-/*MX25L512 memory parameters*/
-#define MEMORY_FLASH_SIZE				0x1000000 /* 128 MBits => 16MBytes */
-#define MEMORY_BLOCK_SIZE				0x10000   /* 256 sectors of 64KBytes */
-#define MEMORY_SECTOR_SIZE				0x1000    /* 4096 subsectors of 4kBytes */
-#define MEMORY_PAGE_SIZE				0x100     /* 65536 pages of 256 bytes */
+/* USER CODE BEGIN Prototypes */
 
+#define MEMORY_FLASH_SIZE				0x1000000 /* 128 MBits => 16 MB */
+#define MEMORY_BLOCK_SIZE				0x10000   /* 64x1024 - 256 sectors of 64KB */
+#define MEMORY_SECTOR_SIZE				0x1000    /* 4x1024 = 4096 subsectors of 4kB */
+#define MEMORY_PAGE_SIZE				0x100     /* 65536 pages of 256B */
 
+/*W25Q64JV commands */
 
-/*MX25L512 commands */
-#define WRITE_ENABLE_CMD                 0x06
-#define READ_STATUS_REG_CMD              0x05
-#define READ_STATUS_REG_2_CMD			 0X35
-#define WRITE_STATUS_REG_CMD             0x01
-#define WRITE_STATUS_REG_2_CMD           0X31
-#define SECTOR_ERASE_CMD                 0x20
-#define CHIP_ERASE_CMD                   0xC7
-#define QUAD_IN_FAST_PROG_CMD            0x32
-//#define READ_CONFIGURATION_REG_CMD       0x15
-//#define QUAD_READ_IO_CMD                 0xEC
-#define QUAD_OUT_FAST_READ_CMD           0x6B
-#define QUAD_INOUT_FAST_READ_CMD         0xEB
-//#define QPI_ENABLE_CMD                   0x35
-#define DUMMY_CLOCK_CYCLES_READ_QUAD       8
-#define RESET_ENABLE_CMD                 0x66
-#define RESET_EXECUTE_CMD                0x99
-//#define DISABLE_QIP_MODE                 0xf5
-/* USER CODE END Prototypes */
+#define CHIP_ERASE_CMD 					0xC7U
+#define READ_STATUS_REG_CMD 			0x05U
+#define WRITE_ENABLE_CMD 				0x06U
+#define VOLATILE_SR_WRITE_ENABLE        0x50U
+#define READ_STATUS_REG2_CMD 			0x35U
+#define WRITE_STATUS_REG2_CMD 			0x31U
+#define READ_STATUS_REG3_CMD 			0x15U
+#define WRITE_STATUS_REG3_CMD           0x11U
+#define SECTOR_ERASE_CMD 				0x20U
+#define BLOCK_ERASE_CMD 				0xD8U
+#define QUAD_IN_FAST_PROG_CMD 			0x32U
+#define FAST_PROG_CMD 					0x02U
+#define QUAD_OUT_FAST_READ_CMD 			0x6BU
+#define DUMMY_CLOCK_CYCLES_READ_QUAD 	6
+#define QUAD_IN_OUT_FAST_READ_CMD 		0xEBU
+#define RESET_ENABLE_CMD 				0x66U
+#define RESET_EXECUTE_CMD 				0x99U
 
 /* USER CODE END Prototypes */
 

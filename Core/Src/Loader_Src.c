@@ -27,6 +27,7 @@ int Init(void)
 
 	SystemInit();
 
+  // this VTOR is for STM32H7
 	SCB->VTOR = 0x24000000 | 0x200;
 	//SCB->VTOR = 0x20000000 | 0x200;
 
@@ -77,14 +78,14 @@ int Write(uint32_t Address, uint32_t Size, uint8_t* buffer)
 	__set_PRIMASK(0);
 
 
-//	if(HAL_QSPI_Abort(&hqspi) != HAL_OK)
-//	{
-//		__set_PRIMASK(1);
-//		return LOADER_FAIL;
-//	}
+	if(HAL_QSPI_Abort(&hqspi) != HAL_OK)
+	{
+		__set_PRIMASK(1);
+		return LOADER_FAIL;
+	}
 
-		HAL_QSPI_DeInit(&hqspi);
-		MX_QUADSPI_Init();
+		// HAL_QSPI_DeInit(&hqspi);
+		// MX_QUADSPI_Init();
 
 	if (CSP_QSPI_WriteMemory((uint8_t*) buffer, (Address & (0x0FFFFFF)),Size) != HAL_OK)
 	{
@@ -108,14 +109,14 @@ int SectorErase(uint32_t EraseStartAddress, uint32_t EraseEndAddress)
 
 	__set_PRIMASK(0);
 //
-//	if(HAL_QSPI_Abort(&hqspi) != HAL_OK)
-//	{
-//		__set_PRIMASK(1);
-//		return LOADER_FAIL;
-//	}
+	if(HAL_QSPI_Abort(&hqspi) != HAL_OK)
+	{
+		__set_PRIMASK(1);
+		return LOADER_FAIL;
+	}
 
-		HAL_QSPI_DeInit(&hqspi);
-		MX_QUADSPI_Init();
+		// HAL_QSPI_DeInit(&hqspi);
+		// MX_QUADSPI_Init();
 
 
 	if (CSP_QSPI_EraseSector(EraseStartAddress, EraseEndAddress) != HAL_OK)
@@ -144,14 +145,14 @@ int MassErase(void)
 	__set_PRIMASK(0);
 
 
-	//	if(HAL_QSPI_Abort(&hqspi) != HAL_OK)
-	//	{
-	//		__set_PRIMASK(1);
-	//		return LOADER_FAIL;
-	//	}
+		if(HAL_QSPI_Abort(&hqspi) != HAL_OK)
+		{
+			__set_PRIMASK(1);
+			return LOADER_FAIL;
+		}
 
-	HAL_QSPI_DeInit(&hqspi);
-	MX_QUADSPI_Init();
+	// HAL_QSPI_DeInit(&hqspi);
+	// MX_QUADSPI_Init();
 
 	if (CSP_QSPI_Erase_Chip() != HAL_OK)
 	{
@@ -264,8 +265,8 @@ uint64_t Verify(uint32_t MemoryAddr, uint32_t RAMBufferAddr, uint32_t Size,uint3
 	uint64_t checksum;
 	Size *= 4;
 
-	HAL_QSPI_DeInit(&hqspi);
-	MX_QUADSPI_Init();
+	// HAL_QSPI_DeInit(&hqspi);
+	// MX_QUADSPI_Init();
 
 	if (CSP_QSPI_EnableMemoryMappedMode() != HAL_OK)
 	{
