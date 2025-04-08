@@ -102,7 +102,7 @@ int main(void)
 
   /* USER CODE END 2 */
   uint8_t buffer_test[MEMORY_SECTOR_SIZE];
-      uint32_t var = 0;
+  uint32_t var = 0;
 
   	CSP_QUADSPI_Init();
 

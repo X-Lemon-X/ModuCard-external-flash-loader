@@ -68,3 +68,29 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 
     # Add user defined libraries
 )
+
+
+find_program(CCACHE_PROGRAM ccache)
+if(NOT CCACHE_PROGRAM)
+    message(STATUS "ccache not found")
+else()
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK "${CCACHE_PROGRAM}")
+endif()
+
+
+add_custom_command(
+    TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary ${CMAKE_PROJECT_NAME}.elf firmware.bin
+    COMMAND ${CMAKE_OBJCOPY} -O ihex ${CMAKE_PROJECT_NAME}.elf firmware.hex
+    COMMAND ${CMAKE_SIZE} ${CMAKE_PROJECT_NAME}.elf
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PROJECT_NAME}.elf firmware.elf
+  # Show ccache statistics
+ )
+ 
+if(CCACHE_PROGRAM)
+  add_custom_command(
+    TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND ${CCACHE_PROGRAM} -s
+  )
+endif()
