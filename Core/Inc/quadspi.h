@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file    quadspi.h
-  * @brief   This file contains all the function prototypes for
-  *          the quadspi.c file
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file    quadspi.h
+ * @brief   This file contains all the function prototypes for
+ *          the quadspi.c file
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2024 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __QUADSPI_H__
@@ -36,21 +36,19 @@ extern QSPI_HandleTypeDef hqspi;
 
 /* USER CODE BEGIN Private defines */
 
+uint8_t CSP_QUADSPI_Init(void);
+uint8_t CSP_QSPI_EraseSector(uint32_t EraseStartAddress, uint32_t EraseEndAddress);
+uint8_t CSP_QSPI_EraseBlock(uint32_t flash_address);
+uint8_t CSP_QSPI_WriteMemory(uint8_t *buffer, uint32_t address, uint32_t buffer_size);
+uint8_t CSP_QSPI_EnableMemoryMappedMode(void);
+uint8_t CSP_QSPI_Erase_Chip(void);
+uint8_t QSPI_AutoPollingMemReady(void);
+uint8_t CSP_QSPI_Read(uint8_t *pData, uint32_t ReadAddr, uint32_t Size);
+
 /* USER CODE END Private defines */
 
 void MX_QUADSPI_Init(void);
 
-uint8_t CSP_QUADSPI_Init(void);
-uint8_t CSP_QSPI_EraseSector(uint32_t EraseStartAddress ,uint32_t EraseEndAddress);
-uint8_t CSP_QSPI_WriteMemory(uint8_t* buffer, uint32_t address, uint32_t buffer_size);
-uint8_t CSP_QSPI_EnableMemoryMappedMode(void);
-uint8_t CSP_QSPI_Erase_Chip (void);
-uint8_t QSPI_AutoPollingMemReady_ChipErase(void);
-
-/* USER CODE BEGIN Prototypes */
-
-
-/* USER CODE BEGIN Prototypes */
 /* USER CODE BEGIN Prototypes */
 
 #define MEMORY_FLASH_SIZE				0x1000000 /* 128 MBits => 16 MB */
