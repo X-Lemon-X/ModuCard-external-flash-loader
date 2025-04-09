@@ -11,7 +11,7 @@
  #else
  struct StorageInfo const StorageInfo = {
  #endif
-     "W25Q128_STM32H750Vb_QSPI_LOADER",                  // Device Name + version number
+     "W25Q128_STM32H750VB_QSPI",                  // Device Name + version number
      NOR_FLASH,                           // Device Type
      0x90000000,                          // Device Start Address
      MEMORY_FLASH_SIZE,                   // Device Size in Bytes
