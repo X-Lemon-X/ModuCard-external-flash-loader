@@ -1,4 +1,7 @@
 {
   "stm32-for-vscode.openOCDPath": false,
-  "ros.distro": "humble"
+  "ros.distro": "humble",
+  "files.associations": {
+    "loader_src.h": "c"
+  }
 }

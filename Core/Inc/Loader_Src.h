@@ -24,11 +24,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
-#include "stm32h7b3i_eval_ospi.h"    
+// #include "stm32h7b3i_eval_ospi.h"    
 
 
 #define TIMEOUT 5000U
-#define KeepInCompilation __root
+#define KeepInCompilation __attribute__((used))
 
 /* Private function prototypes -----------------------------------------------*/
 int Init ();

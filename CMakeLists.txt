@@ -48,7 +48,8 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
-    
+    Core/Src/Loader_Src.c
+    Core/Src/Dev_Inf.c
     )
 
 # Add include paths
@@ -65,7 +66,6 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
-
     # Add user defined libraries
 )
 
@@ -84,7 +84,7 @@ add_custom_command(
     COMMAND ${CMAKE_OBJCOPY} -O binary ${CMAKE_PROJECT_NAME}.elf firmware.bin
     COMMAND ${CMAKE_OBJCOPY} -O ihex ${CMAKE_PROJECT_NAME}.elf firmware.hex
     COMMAND ${CMAKE_SIZE} ${CMAKE_PROJECT_NAME}.elf
-  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PROJECT_NAME}.elf firmware.elf
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PROJECT_NAME}.elf firmware.stldr
   # Show ccache statistics
  )
  
