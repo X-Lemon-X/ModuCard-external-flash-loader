@@ -50,6 +50,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     Core/Src/Loader_Src.c
     Core/Src/Dev_Inf.c
+    Core/Src/w25q_mem.c
     )
 
 # Add include paths
@@ -83,6 +84,7 @@ add_custom_command(
     TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary ${CMAKE_PROJECT_NAME}.elf firmware.bin
     COMMAND ${CMAKE_OBJCOPY} -O ihex ${CMAKE_PROJECT_NAME}.elf firmware.hex
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PROJECT_NAME}.elf firmware.elf
     COMMAND ${CMAKE_SIZE} ${CMAKE_PROJECT_NAME}.elf
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PROJECT_NAME}.elf firmware.stldr
   # Show ccache statistics
