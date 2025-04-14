@@ -106,21 +106,22 @@ int main(void)
   uint8_t buffer_test[MEMORY_SECTOR_SIZE];
   uint32_t var = 0;
 
-  W25Q_Init();
-  W25Q_EraseSector(0);
-  // make test data
-	u8_t byte = 0x65;
-	u8_t byte_read = 0;
-	u8_t in_page_shift = 0;
-	u8_t page_number = 0;
-	// write data
-	W25Q_ProgramByte(byte, in_page_shift, page_number);
-	// read data
-	W25Q_ReadByte(&byte_read, in_page_shift, page_number);
+  // W25Q_Init();
+  // W25Q_EraseSector(0);
+  // // make test data
+	// u8_t byte = 0x65;
+	// u8_t byte_read = 0;
+	// u8_t in_page_shift = 0;
+	// u8_t page_number = 0;
+	// // write data
+	// W25Q_ProgramByte(byte, in_page_shift, page_number);
+	// // read data
+	// W25Q_ReadByte(&byte_read, in_page_shift, page_number);
   
 
-  	// CSP_QUADSPI_Init();
+  	CSP_QUADSPI_Init();
 
+    
   	for (var = 0; var < MEMORY_SECTOR_SIZE; var++) {
   		buffer_test[var] = (var & 0xff);
   	}
