@@ -119,9 +119,30 @@ int main(void)
 	// W25Q_ReadByte(&byte_read, in_page_shift, page_number);
   
 
-  	CSP_QUADSPI_Init();
+  	// CSP_QUADSPI_Init();
 
-    
+    HAL_StatusTypeDef ret = HAL_OK;
+    uint8_t reg[10] = { 0 };
+
+    if (HAL_QSPI_DeInit(&hqspi) != HAL_OK) {
+      return HAL_ERROR;
+    }
+    MX_QUADSPI_Init();
+    QSPI_CommandTypeDef sCommand = { 0 };
+    sCommand.InstructionMode = QSPI_INSTRUCTION_1_LINE;
+    sCommand.Instruction = READ_STATUS_REG_3_CMD;
+    sCommand.AddressMode = QSPI_ADDRESS_NONE;
+    sCommand.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
+    sCommand.DataMode = QSPI_DATA_1_LINE;
+    sCommand.DummyCycles = 0;
+    sCommand.DdrMode = QSPI_DDR_MODE_DISABLE;
+    sCommand.DdrHoldHalfCycle = QSPI_DDR_HHC_ANALOG_DELAY;
+    sCommand.SIOOMode = QSPI_SIOO_INST_EVERY_CMD;
+    sCommand.NbData = 1;
+    ret = HAL_QSPI_Command(&hqspi,&sCommand,HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+    ret = HAL_QSPI_Receive(&hqspi, reg, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+
+
   	for (var = 0; var < MEMORY_SECTOR_SIZE; var++) {
   		buffer_test[var] = (var & 0xff);
   	}
