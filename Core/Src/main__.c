@@ -107,7 +107,7 @@ int main(void)
   uint32_t var = 0;
 
   // 
-  	// CSP_QUADSPI_Init();
+  	CSP_QUADSPI_Init();
 
   	for (var = 0; var < MEMORY_SECTOR_SIZE; var++) {
   		buffer_test[var] = (var & 0xff);

@@ -1,7 +1,9 @@
 {
-  "stm32-for-vscode.openOCDPath": false,
+  "stm32-for-vscode.openOCDPath": "/usr/bin/openocd",
   "ros.distro": "humble",
   "files.associations": {
-    "loader_src.h": "c"
-  }
+    "loader_src.h": "c",
+    "cstdint": "c"
+  },
+  "cortex-debug.variableUseNaturalFormat": false
 }

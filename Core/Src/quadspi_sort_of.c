@@ -43,7 +43,7 @@ void MX_QUADSPI_Init(void)
 
   /* USER CODE END QUADSPI_Init 1 */
   hqspi.Instance = QUADSPI;
-  hqspi.Init.ClockPrescaler = 3;
+  hqspi.Init.ClockPrescaler = 10;
   hqspi.Init.FifoThreshold = 4;
   hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_HALFCYCLE;
   hqspi.Init.FlashSize = 23;
@@ -99,28 +99,28 @@ void HAL_QSPI_MspInit(QSPI_HandleTypeDef* qspiHandle)
     GPIO_InitStruct.Pin = GPIO_PIN_2;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = GPIO_PIN_1;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_10;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
@@ -281,21 +281,21 @@ uint8_t QSPI_WriteEnable(void) {
 		return ret;
 	}
 
-	// /* Configure automatic polling mode to wait for write enabling ---- */
-	// sConfig.Match = 0x02;
-	// sConfig.Mask = 0x02;
-	// sConfig.MatchMode = QSPI_MATCH_MODE_AND;
-	// sConfig.StatusBytesSize = 1;
-	// sConfig.Interval = 0x10;
-	// sConfig.AutomaticStop = QSPI_AUTOMATIC_STOP_ENABLE;
+	/* Configure automatic polling mode to wait for write enabling ---- */
+	sConfig.Match = 0x02;
+	sConfig.Mask = 0x02;
+	sConfig.MatchMode = QSPI_MATCH_MODE_AND;
+	sConfig.StatusBytesSize = 1;
+	sConfig.Interval = 0x10;
+	sConfig.AutomaticStop = QSPI_AUTOMATIC_STOP_ENABLE;
 
-	// sCommand.Instruction = READ_STATUS_REG_CMD;
-	// sCommand.DataMode = QSPI_DATA_1_LINE;
+	sCommand.Instruction = READ_STATUS_REG_CMD;
+	sCommand.DataMode = QSPI_DATA_1_LINE;
 
-	// if ((ret = HAL_QSPI_AutoPolling(&hqspi, &sCommand, &sConfig,
-	// HAL_QPSI_TIMEOUT_DEFAULT_VALUE)) != HAL_OK) {
-	// 	return ret;
-	// }
+	if ((ret = HAL_QSPI_AutoPolling(&hqspi, &sCommand, &sConfig,
+	HAL_QPSI_TIMEOUT_DEFAULT_VALUE)) != HAL_OK) {
+		return ret;
+	}
 	return HAL_OK;
 }
 /*Enable quad mode*/

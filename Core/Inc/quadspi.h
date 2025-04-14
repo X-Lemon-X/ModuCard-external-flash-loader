@@ -29,7 +29,10 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+uint8_t QSPI_WriteEnable(void);
+uint8_t QSPI_AutoPollingMemReady(void);
+uint8_t QSPI_Configuration(void);
+uint8_t QSPI_ResetChip(void);
 /* USER CODE END Includes */
 
 extern QSPI_HandleTypeDef hqspi;

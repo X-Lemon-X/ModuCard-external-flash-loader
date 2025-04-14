@@ -103,23 +103,24 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
-  uint8_t buffer_test[MEMORY_SECTOR_SIZE];
+  uint8_t buffer_test[MEMORY_SECTOR_SIZE] = {0};
   uint32_t var = 0;
 
-  // W25Q_Init();
-  // W25Q_EraseSector(0);
-  // // make test data
-	// u8_t byte = 0x65;
-	// u8_t byte_read = 0;
-	// u8_t in_page_shift = 0;
-	// u8_t page_number = 0;
-	// // write data
-	// W25Q_ProgramByte(byte, in_page_shift, page_number);
-	// // read data
-	// W25Q_ReadByte(&byte_read, in_page_shift, page_number);
+  W25Q_STATE state = W25Q_OK;
+  state = W25Q_Init();
+  state = W25Q_EraseSector(0);
+  // make test data
+	u8_t byte = 0x65;
+	u8_t byte_read = 0;
+	u8_t in_page_shift = 0;
+	u8_t page_number = 0;
+	// write data
+	state = W25Q_ProgramByte(byte, in_page_shift, page_number);
+	// read data
+	state = W25Q_ReadByte(&byte_read, in_page_shift, page_number);
   
 
-  	// CSP_QUADSPI_Init();
+  	// 
 
     HAL_StatusTypeDef ret = HAL_OK;
     uint8_t reg[10] = { 0 };
@@ -128,6 +129,7 @@ int main(void)
       return HAL_ERROR;
     }
     MX_QUADSPI_Init();
+
     QSPI_CommandTypeDef sCommand = { 0 };
     sCommand.InstructionMode = QSPI_INSTRUCTION_1_LINE;
     sCommand.Instruction = READ_STATUS_REG_3_CMD;
@@ -139,9 +141,34 @@ int main(void)
     sCommand.DdrHoldHalfCycle = QSPI_DDR_HHC_ANALOG_DELAY;
     sCommand.SIOOMode = QSPI_SIOO_INST_EVERY_CMD;
     sCommand.NbData = 1;
+    QSPI_WriteEnable();
+    // while(true){
+      ret = HAL_QSPI_Command(&hqspi,&sCommand,HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+      ret = HAL_QSPI_Receive(&hqspi, reg, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+    // }
+    // CSP_QUADSPI_Init();
+
+    sCommand.Instruction = READ_STATUS_REG_CMD;
     ret = HAL_QSPI_Command(&hqspi,&sCommand,HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
     ret = HAL_QSPI_Receive(&hqspi, reg, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
 
+    sCommand.Instruction = READ_STATUS_REG_2_CMD;
+    ret = HAL_QSPI_Command(&hqspi,&sCommand,HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+    ret = HAL_QSPI_Receive(&hqspi, reg, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+
+
+    sCommand.Instruction = READ_STATUS_REG_3_CMD;
+    ret = HAL_QSPI_Command(&hqspi,&sCommand,HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+    ret = HAL_QSPI_Receive(&hqspi, reg, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+
+    reg[0] = 0x41;
+    reg[1] = 0xF1;
+    ret = CSP_QSPI_WriteMemory(reg, 0x00001000, 2);
+    ret = CSP_QSPI_Read(buffer_test, 0x00001000, 2);
+    if (buffer_test[0] != 0x41 || buffer_test[1] != 0xF1) {
+      while (1)
+        ; //breakpoint - error detected
+    }
 
   	for (var = 0; var < MEMORY_SECTOR_SIZE; var++) {
   		buffer_test[var] = (var & 0xff);
@@ -170,11 +197,10 @@ int main(void)
   		while (1)
   			; //breakpoint - error detected
   	}
-
+  
   	for (var = 0; var < SECTORS_COUNT; var++) {
-  		if (memcmp(buffer_test,
-  				(uint8_t*) (0x90000000 + var * MEMORY_SECTOR_SIZE),
-  				MEMORY_SECTOR_SIZE) != HAL_OK) {
+      uint8_t *pointer = (uint8_t*) (0x90000000 + var * MEMORY_SECTOR_SIZE);
+  		if (memcmp(buffer_test,pointer,MEMORY_SECTOR_SIZE) != HAL_OK) {
   			while (1)
   				;  //breakpoint - error detected - otherwise QSPI works properly
   		}
